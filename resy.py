@@ -30,8 +30,9 @@ def job():
 	'authority': 'api.resy.com', 
 	'referer': 'https://resy.com'
 	 }
-	userAuthToken = '_TN2OF4tvzHd71vYi5T8ubLsWY|HNBDv0_qGCWBeK1joDZ_Xaf_9Cp0_E_taDJV6t0c6WUIEVsIK1MYD68s06aondG9_jgGloIdwZeYmgQw=-0f98cc084fd6b4277ddd058d1d69fb161e509e2bb3c3064056a71b2b'
-	weakAuthToken = 'yDFWhG7_KneKK2Nj9veohXnEgZu3XuF0DT491IVN5i17tXJ1nkj6pFV3e0ENb5dZwql2zPtr3naMS4ouSahntMNsAVcNUg7zeLcGyhJhoBo%3D-22a7adfc292b099c1b96db135119bac50da983bd58bc8f9ae791fede'
+
+	userAuthToken = '---VALID LOGIN USER AUTH TOKEN---'
+	weakAuthToken = '---GENERAL AUTH TOKEN---'
 
 	### Set Venue ID ###
 	date = '2018-10-23'
@@ -95,8 +96,6 @@ def job():
 			print "No RESY for you"
 		else:
 			book_token = jsonData["book_token"]["value"]
-
-
 
 			### Book The damn thing
 			bookURL = "https://api.resy.com/3/book"
