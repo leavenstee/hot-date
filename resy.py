@@ -34,11 +34,11 @@ def job():
 	weakAuthToken = 'yDFWhG7_KneKK2Nj9veohXnEgZu3XuF0DT491IVN5i17tXJ1nkj6pFV3e0ENb5dZwql2zPtr3naMS4ouSahntMNsAVcNUg7zeLcGyhJhoBo%3D-22a7adfc292b099c1b96db135119bac50da983bd58bc8f9ae791fede'
 
 	### Set Venue ID ###
-	date = '2018-10-23'
+	date = '2018-10-27'
 	latatude = 0
 	longatude = 0
 	partySize = 4
-	venueID = 418
+	venueID = 2355
 
 	slotURL = 'https://api.resy.com/4/find?'
 	slotData = [
@@ -56,13 +56,14 @@ def job():
 
 	### Send Slot Query Request & Save Config ID ###
 	response = requests.get(slotURL, headers=headers)
+	print response.status_code
 	jsonData = response.json()
 
 	### Collection of config ideas
 	configIDs = []
 
-	sevenPM = datetime.datetime(2018, 10, 23, 19, 00)
-	ninePM = datetime.datetime(2018, 10, 23, 21, 00)
+	sevenPM = datetime.datetime(2018, 10, 27, 19, 00)
+	ninePM = datetime.datetime(2018, 10, 27, 21, 00)
 
 	for i in jsonData["results"]["venues"][0]["slots"]:
 		resDataTime = i["date"]["start"] 
@@ -72,9 +73,9 @@ def job():
 		if sevenPM < datetime_object:
 			if ninePM > datetime_object:
 				configIDs.append(i["config"]["id"])
-	print "config id gathered"			
-		
+			
 	if len(configIDs) > 0:
+		print "config id gathered"	
 		### Now we have config ids we need to send 
 		configURL = 'https://api.resy.com/3/details?'
 		configData = [
@@ -89,14 +90,13 @@ def job():
 		configURL = configURL + configDataString # Concat Stirng Builder
 
 		response = requests.get(configURL, headers=headers)
+		print response.status_code
 		jsonData = response.json()
 
 		if "book_token" not in jsonData:
 			print "No RESY for you"
 		else:
 			book_token = jsonData["book_token"]["value"]
-
-
 
 			### Book The damn thing
 			bookURL = "https://api.resy.com/3/book"
@@ -108,12 +108,9 @@ def job():
 				}
 
 			response = requests.post(bookURL, headers=headers, data=bookData)
-			print response.text
+			print response.status_code
+			
 	else:
 		print "no config ids for today"
 
-schedule.every().day.at("23:01").do(job)
-
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+job()
